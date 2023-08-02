@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
     <style>
         .know {
             font-family: 'Merriweather', serif;
@@ -20,7 +23,22 @@
        .w-100{
             height: 92vh;
         }
-
+#fir{
+    font-family: 'Lobster', cursive;
+font-family: 'Merriweather', serif;   
+ font-size: 30px;
+    /* color: rgb(240, 240, 249);
+    background-color: rgba(33, 34, 34, 0.619); */
+    /* background-color: rgba(127, 255, 212, 0.297);
+    text-align: center;
+    width: 600px; */
+}
+.carousel-caption{
+     
+    background: rgba(107, 105, 100, 0.47);
+    width: fit-content;
+    margin: auto;
+}
         @media screen and (max-width: 767px) {
   img {
     /* Add specific styles for mobile here */
@@ -43,21 +61,25 @@
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand text-primary know">Know the Bible</a>
+           <div class="text-danger" id="td"></div>
             <div class="d-flex" role="search">
-                <input class="form-control me-2" type="search" id="srch" placeholder="eg. John 3">
+                <input class="form-control me-2" type="search" id="srch" placeholder="eg. john 3 or john 3:14">
                 <button class="btn btn-outline-secondary" id="clk" type="submit" onclick="search()">Search</button>
             </div>
         </div>
     </nav>
 
-   
+
+    
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        
         <div class="carousel-inner" id="car">
-          <div class="carousel-item active">
-            <img src="https://media.swncdn.com/via/21937-bible-trivia-cwjpeg.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-md-block">
-                <h5><b>Welcome to the Bible Library</b></h5>
-                <p>Type the book name and the chapter that you want to search for, then use the slider to change slides</p>
+          <div class="carousel-item active" id="first">
+              <img src="https://media.swncdn.com/via/21937-bible-trivia-cwjpeg.jpg" class="d-block w-100" alt="...">
+              <div class="carousel-caption d-md-block">
+                  <h5><b>Welcome to the Bible Library</b></h5>
+                  <b><div id="fir"></div></b>
+                <p id="inst">Type the book name and the chapter that you want to search for</p>
               </div> 
           
           </div>
@@ -90,9 +112,16 @@ input.addEventListener("keypress", function(event) {
 
         let car = document.getElementById("car");
         let url = 'https://bible-api.com/';
-
+        let first=document.getElementById("first");
+        let inst = document.getElementById("inst");
+        let srch = document.getElementById("srch");
         function search() {
             let cv = document.getElementById("srch").value;
+            while (car.children.length > 1) {
+               first.classList.add("active");
+    car.removeChild(car.lastChild);
+  }
+         
             console.log(cv);
             console.log(url);
             if (cv) {
@@ -106,6 +135,19 @@ input.addEventListener("keypress", function(event) {
            
             let res = await fetch(url); //
             let data = await res.json();
+
+            if(!res.ok) {
+                alert("The book or the chapter or the verse doesn't exist")
+                document.getElementById("td").innerHTML = "Try Again!";
+                inst.innerHTML ="Type the book name and the chapter that you want to search for"
+                srch.value = "";
+                return
+            }
+            else {
+                document.getElementById("td").innerHTML = "";
+
+            }
+
             console.log(data.verses[0]);
             if (data.text == "undefined") {
                 alert("Write the book name, chapter and verse correctly, for eg: John 3:14");
@@ -120,9 +162,16 @@ input.addEventListener("keypress", function(event) {
 
 
     function mdisplay(v){
+document.getElementById("fir").innerHTML = `
+              <b>Book: </b> ${v.book_name}
+`
+        inst.innerHTML ="";
             let newelement = document.createElement("div");
-           
-            newelement.className="carousel-item"
+        
+            newelement.className="carousel-item";
+            // if(v.verse==1){
+            //     newelement.classList.add("active");
+            // }
             newelement.innerHTML = `
         <img src="https://openthebible.org/wp-content/uploads/2022/03/timothy-eberly-U4UwzRSns6M-unsplash-scaled.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-md-block">
