@@ -20,6 +20,7 @@
        .w-100{
             height: 92vh;
         }
+
         @media screen and (max-width: 767px) {
   img {
     /* Add specific styles for mobile here */
@@ -29,6 +30,7 @@
     padding: 10px; /* Add some padding around the image */
     border: 1px solid #ccc; /* Add a border around the image */
     border-radius: 5px; /* Add some rounded corners */
+  
   }
 }
 
@@ -53,9 +55,9 @@
         <div class="carousel-inner" id="car">
           <div class="carousel-item active">
             <img src="https://media.swncdn.com/via/21937-bible-trivia-cwjpeg.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
+            <div class="carousel-caption d-md-block">
                 <h5><b>Welcome to the Bible Library</b></h5>
-                <p>Type the book name and the chapter that you want to search for ></p>
+                <p>Type the book name and the chapter that you want to search for</p>
               </div> 
           
           </div>
@@ -123,7 +125,7 @@ input.addEventListener("keypress", function(event) {
             newelement.className="carousel-item"
             newelement.innerHTML = `
         <img src="https://openthebible.org/wp-content/uploads/2022/03/timothy-eberly-U4UwzRSns6M-unsplash-scaled.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
+        <div class="carousel-caption d-md-block">
         <h5><b>Book:</b> ${v.book_name}</h5>
         <h5><b>Chapter:</b> ${v.chapter}</h5>
         <h5><b>Verse:</b> ${v.verse}</h5>
