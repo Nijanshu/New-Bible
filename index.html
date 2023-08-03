@@ -27,11 +27,7 @@
     font-family: 'Lobster', cursive;
 font-family: 'Merriweather', serif;   
  font-size: 30px;
-    /* color: rgb(240, 240, 249);
-    background-color: rgba(33, 34, 34, 0.619); */
-    /* background-color: rgba(127, 255, 212, 0.297);
-    text-align: center;
-    width: 600px; */
+    
 }
 .carousel-caption{
      
@@ -39,18 +35,7 @@ font-family: 'Merriweather', serif;
     width: fit-content;
     margin: auto;
 }
-        @media screen and (max-width: 767px) {
-  img {
-    /* Add specific styles for mobile here */
-    /* For example: */
-    display: block; /* Ensure the image takes the full width of the container */
-    margin: 0 auto; /* Center the image horizontally */
-    padding: 10px; /* Add some padding around the image */
-    border: 1px solid #ccc; /* Add a border around the image */
-    border-radius: 5px; /* Add some rounded corners */
-  
-  }
-}
+       
 
     </style>
 </head>
@@ -142,6 +127,8 @@ input.addEventListener("keypress", function(event) {
                 document.getElementById("td").innerHTML = "Try Again!";
                 inst.innerHTML ="Type the book name and the chapter that you want to search for"
                 srch.value = "";
+                document.getElementById("fir").innerHTML=""
+                document.getElementById("fig").innerHTML=""
                 return
             }
             else {
