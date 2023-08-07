@@ -54,7 +54,9 @@ font-family: 'Merriweather', serif;
         </div>
     </nav>
 
-
+<audio  id="myAudio">
+    <source src="Interstellar Hans Zimmer Imperial Orchestra [TubeRipper.com].mp3" type="audio/mp3">
+</audio>
     
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         
@@ -90,6 +92,7 @@ input.addEventListener("keypress", function(event) {
         document.getElementById("clk").click();
 }})
 
+let myAudio=document.getElementById("myAudio");
 
         let car = document.getElementById("car");
         let url = 'https://bible-api.com/';
@@ -98,6 +101,8 @@ input.addEventListener("keypress", function(event) {
         let srch = document.getElementById("srch");
         let btn = document.getElementById("btn");
         function search() {
+                        myAudio.play();
+
             let cv = document.getElementById("srch").value;
             while (car.children.length > 1) {
                first.classList.add("active");
