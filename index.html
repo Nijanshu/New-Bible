@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Know The Bible</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
@@ -36,7 +35,11 @@ font-family: 'Merriweather', serif;
     margin: auto;
 }
        
-
+.alert{
+    margin: 0;
+    position: relative;
+    height: 100%;
+}
     </style>
 </head>
 
@@ -58,26 +61,29 @@ font-family: 'Merriweather', serif;
     <source src="Interstellar Hans Zimmer Imperial Orchestra [TubeRipper.com].mp3" type="audio/mp3">
 </audio>
     
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        
-        <div class="carousel-inner" id="car">
-          <div class="carousel-item active" id="first">
-              <img src="https://media.swncdn.com/via/21937-bible-trivia-cwjpeg.jpg" class="d-block w-100" alt="...">
-              <div class="carousel-caption d-md-block">
-                  <h5><b>Welcome to the Bible Library</b></h5>
-                  <b><div id="fir"></div></b>
-                  <b><div id="fig"></div></b>
-                <p id="inst">Type the book name and the chapter that you want to search for</p>
-              </div> 
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner" id="car">
+
+            <div class="carousel-item active" id="first">
+                <img src="https://media.swncdn.com/via/21937-bible-trivia-cwjpeg.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-md-block">
+                    <h5><b>Welcome to the Bible Library</b></h5>
+                    <b><div id="fir"></div></b>
+                    <b><div id="fig"></div></b>
+                  <p id="inst">Type the book name and the chapter that you want to search for</p>
+                </div> 
+            
+            </div>
+          </div>
+          <div id="btn">
           
           </div>
-        </div>
-        <div id="btn">
-        
-        </div>
+       
       </div>
     
-    
+      <div class="text-center" id="loadingSpinner" style="display: none;">
+        <img src="Infinity-1s-200px.gif" alt="loading" />
+    </div>
     
     
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -93,22 +99,36 @@ input.addEventListener("keypress", function(event) {
 }})
 
 let myAudio=document.getElementById("myAudio");
+myAudio.play();
+let url = 'https://bible-api.com/';
+let first=document.getElementById("first");
+let inst = document.getElementById("inst");
+let srch = document.getElementById("srch");
+let btn = document.getElementById("btn");
+let carsl=document.getElementById("carouselExampleControls")
+let car=document.getElementById('car')
 
-        let car = document.getElementById("car");
-        let url = 'https://bible-api.com/';
-        let first=document.getElementById("first");
-        let inst = document.getElementById("inst");
-        let srch = document.getElementById("srch");
-        let btn = document.getElementById("btn");
-        function search() {
-                        myAudio.play();
-
+function search() {
+    
+    document.getElementById("loadingSpinner").style.display = "block";
+carsl.style.display="none";
+    
+      
+            inst.innerHTML ="Type the book name and the chapter that you want to search for"
             let cv = document.getElementById("srch").value;
+            if(cv==""){
+                return
+            }
+            document.getElementById("fir").innerHTML=""
+                document.getElementById("fig").innerHTML=""
+               
             while (car.children.length > 1) {
                first.classList.add("active");
-    car.removeChild(car.lastChild);
-  }
-         
+                car.removeChild(car.lastChild);
+             }
+         if(car.children.length>1) {
+            car.removeChild(car.firstchild);
+        }
             console.log(cv);
             console.log(url);
             if (cv) {
@@ -124,13 +144,16 @@ let myAudio=document.getElementById("myAudio");
             let data = await res.json();
 
             if(!res.ok) {
-                alert("The book or the chapter or the verse doesn't exist")
-                document.getElementById("td").innerHTML = "Try Again!";
-                inst.innerHTML ="Type the book name and the chapter that you want to search for"
+                document.getElementById("td").innerHTML = `
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Write the book and chapter in correct format
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                `;
                 srch.value = "";
-                document.getElementById("fir").innerHTML=""
-                document.getElementById("fig").innerHTML=""
-                btn.innerHTML = ""
+                 btn.innerHTML = ""
+                 document.getElementById("loadingSpinner").style.display = "none";
+           carsl.style.display="block";
                 return
             }
             else {
@@ -147,11 +170,15 @@ let myAudio=document.getElementById("myAudio");
             let v=data.verses[i];
             mdisplay(v)
            }
+           document.getElementById("loadingSpinner").style.display = "none";
+           carsl.style.display="block";
+
     }
 
 
 
     function mdisplay(v){
+     
 document.getElementById("fir").innerHTML = `
               <b>Book: </b> ${v.book_name}
 `
